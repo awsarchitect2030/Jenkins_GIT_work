@@ -1,5 +1,5 @@
 pipeline {
-    agent myslave_label
+    agent { label 'myslave_label' }
 
     stages {
         stage('Pull Code') {
