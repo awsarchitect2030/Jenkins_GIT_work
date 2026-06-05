@@ -1,6 +1,6 @@
 pipeline {
     agent { label 'myslave_label' }
-# Updated slave server label
+// Updated slave server label
     stages {
         stage('Pull Code') {
             steps {
