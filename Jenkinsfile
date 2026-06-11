@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'myslave_label' }
+    agent { label 'testnode' }
 // Updated slave server label
     stages {
         stage('Pull Code') {
@@ -8,10 +8,10 @@ pipeline {
                 mkdir -p ~/git-content
 
                 if [ ! -d ~/git-content/.git ]; then
-                    git clone -b develop https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
+                    git clone -b test https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
                 else
                     cd ~/git-content
-                    git pull origin develop
+                    git pull origin test
                 fi
                 '''
             }
