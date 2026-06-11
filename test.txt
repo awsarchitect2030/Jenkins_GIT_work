@@ -1,1 +1,1 @@
-Test contents added to test.txt
+Test contents added second time to test.txt
