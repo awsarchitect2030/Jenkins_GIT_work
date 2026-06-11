@@ -39,7 +39,7 @@ pipeline {
 	stage('PROD Branch') {
             when {
                 expression {
-                    env.GIT_BRANCH?.contains('prod')
+                    env.GIT_BRANCH?.contains('master')
                 }
             }
 
@@ -52,10 +52,10 @@ pipeline {
                 mkdir -p ~/git-content
 
                 if [ ! -d ~/git-content/.git ]; then
-                    git clone -b prod https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
+                    git clone -b master https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
                 else
                     cd ~/git-content
-                    git pull origin prod
+                    git pull origin master
                 fi
                 '''
             }
