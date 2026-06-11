@@ -2,9 +2,20 @@ pipeline {
     agent none
 
     stages {
+
+        stage('Debug') {
+            agent any
+            steps {
+                echo "BRANCH_NAME = ${env.BRANCH_NAME}"
+                echo "GIT_BRANCH = ${env.GIT_BRANCH}"
+            }
+        }
+
         stage('TEST Branch') {
             when {
-                branch 'test'
+                expression {
+                    env.GIT_BRANCH?.contains('test')
+                }
             }
 
             agent {
@@ -27,7 +38,9 @@ pipeline {
 
         stage('DEVELOP Branch') {
             when {
-                branch 'develop'
+                expression {
+                    env.GIT_BRANCH?.contains('develop')
+                }
             }
 
             agent {
