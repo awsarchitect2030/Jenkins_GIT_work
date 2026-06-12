@@ -2,9 +2,20 @@ pipeline {
     agent none
 
     stages {
+
+        stage('Debug') {
+            agent any
+            steps {
+                echo "BRANCH_NAME = ${env.BRANCH_NAME}"
+                echo "GIT_BRANCH = ${env.GIT_BRANCH}"
+            }
+        }
+
         stage('TEST Branch') {
             when {
-                branch 'test'
+                expression {
+                    env.GIT_BRANCH?.contains('test')
+                }
             }
 
             agent {
@@ -24,10 +35,37 @@ pipeline {
                 '''
             }
         }
+	
+	stage('PROD Branch') {
+            when {
+                expression {
+                    env.GIT_BRANCH?.contains('master')
+                }
+            }
+
+            agent {
+                label 'prodnode'
+            }
+
+            steps {
+                sh '''
+                mkdir -p ~/git-content
+
+                if [ ! -d ~/git-content/.git ]; then
+                    git clone -b master https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
+                else
+                    cd ~/git-content
+                    git pull origin master
+                fi
+                '''
+            }
+        }
 
         stage('DEVELOP Branch') {
             when {
-                branch 'develop'
+                expression {
+                    env.GIT_BRANCH?.contains('develop')
+                }
             }
 
             agent {
