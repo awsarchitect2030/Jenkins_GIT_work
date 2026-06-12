@@ -35,6 +35,31 @@ pipeline {
                 '''
             }
         }
+	
+	stage('PROD Branch') {
+            when {
+                expression {
+                    env.GIT_BRANCH?.contains('master')
+                }
+            }
+
+            agent {
+                label 'prodnode'
+            }
+
+            steps {
+                sh '''
+                mkdir -p ~/git-content
+
+                if [ ! -d ~/git-content/.git ]; then
+                    git clone -b master https://github.com/awsarchitect2030/Jenkins_GIT_work.git ~/git-content
+                else
+                    cd ~/git-content
+                    git pull origin master
+                fi
+                '''
+            }
+        }
 
         stage('DEVELOP Branch') {
             when {
